@@ -1,0 +1,20 @@
+POST  http://localhost:3001/admin/addQuestion/
+Content-Type:  application/json
+
+{
+    "quiz_id" : "a45d4c35-9bc2-41a3-9ab4-ac00460cf001",
+    "department" : "bca",
+    "question" : "frist question",
+    "answer" : 0
+}
+###
+GET   http://localhost:3000/admin/results/
+
+###
+POST  http://localhost:3000/link/editLink/63c80d118c972d96558b72b8
+Content-Type:  application/json
+
+{
+
+    "name" : "dj"
+}

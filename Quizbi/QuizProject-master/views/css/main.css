@@ -1,0 +1,56 @@
+:root{
+    --primary:#6E00FF;
+    --secondary:#1B2939;
+    --card:#253649;
+    --text:#fff;
+    --secondaryText: #000;
+}
+body {
+    background-color: var(--secondary);
+}
+
+nav {
+    background-color: var(--primary);
+  
+}
+
+.navbar-nav .nav-link.active, .navbar-nav .show>.nav-link {
+    color: var(--text);
+}
+.navbar-brand{
+    color: var(--text);
+}
+.aLink{
+    text-decoration: none;
+    color: black;
+}
+
+
+.container-sm{
+    height: 100%;
+    padding-bottom: 5rem;
+}
+.card{
+    background-color: var(--card);
+    color: var(--text);
+}
+
+.list-group-item{
+    background-color: var(--card);
+    color: var(--text);
+    font-size: larger;
+    text-transform: capitalize;
+}
+i{
+    color: var(--text);
+}
+.pCard{
+    padding: 0.5rem 0.5rem;
+    background-color: var(--card);
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.nav {
+    font-size: larger;
+    padding: 1rem 3rem 0 3rem;
+}

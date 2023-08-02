@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Quizbi feedback</title>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+  />
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+      :root{
+    --primary:#6E00FF;
+    --secondary:#1B2939;
+    --card:#253649;
+    --text:#fff;
+    --secondaryText: #000;
+}
+
+      body {
+        background: var(--secondary);
+      }
+      form {
+        padding-top: 4%;
+        max-width: 420px;
+        margin: 50px auto;
+      }
+
+      .feedback-input {
+        color: white;
+        font-family: Helvetica, Arial, sans-serif;
+        font-weight: 500;
+        font-size: 18px;
+        border-radius: 5px;
+        line-height: 22px;
+        background-color: transparent;
+        border: 2px solid var(--primary);
+        transition: all 0.3s;
+        padding: 13px;
+        margin-bottom: 15px;
+        width: 100%;
+        box-sizing: border-box;
+        outline: 0;
+      }
+
+      .feedback-input:focus {
+        border: 2px solid var(--primary);
+      }
+
+      textarea {
+        height: 150px;
+        line-height: 150%;
+        resize: vertical;
+      }
+
+      [type="submit"] {
+        font-family: "Montserrat", Arial, Helvetica, sans-serif;
+        width: 100%;
+        background: var(--primary);
+        border-radius: 5px;
+        border: 0;
+        cursor: pointer;
+        color: white;
+        font-size: 24px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        transition: all 0.3s;
+        margin-top: -4px;
+        font-weight: 700;
+      }
+      [type="submit"]:hover {
+        background: var(--primary);
+      }
+
+      h1{
+        color:var(--primary);
+      }
+      .nav {
+        margin: 10px 20px;
+      }
+      .nav span, i{
+        color: white;
+        font-size: larger;
+      }
+      .card{
+        padding: 30px;
+        background-color: var(--card);
+       border-radius: 10px;
+       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      }
+      .card h1{
+        color: #fff;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    $( "#form" ).submit(function(event) {
+      event.preventDefault();
+
+      $.ajax({
+        type: 'POST',
+        url: '/feedback',
+        data: $('#form').serialize(),
+        dataType: "json",
+        success: function(response){
+          //alert("a");
+          //console.log(response.Success);
+          $('#form')[0].reset();
+
+          document.getElementById("check").innerHTML=response.Success;
+
+               },
+               error: function() {
+               }
+             })
+    });
+
+  });
+</script>
+<div>
+  <div class="nav ">
+    <a href="/" >
+
+      <i class="fa fa-arrow-left"><span> Home</span></i>
+    </a>
+  </div>
+
+  <form id="form" class="card">
+      <h1>Feel free to drop us your feedback.</h1>
+    <input
+      name="name"
+      type="text"
+      class="feedback-input"
+      placeholder="Name"
+    />
+    <input
+      name="email"
+      type="text"
+      class="feedback-input"
+      placeholder="Email"
+    />
+    <textarea
+      name="comment"
+      class="feedback-input"
+      placeholder="Comment"
+    ></textarea>
+    <input type="submit" value="SUBMIT"  id="liveToastBtn"/>
+    <h3 id="check" style="color: #fff; text-align: center;"></h3>
+  </form>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root{
+    --primary:#6E00FF;
+    --secondary:#1B2939;
+    --card:#253649;
+    --text:#fff;
+    --secondaryText: #000;
+}
+a{
+    text-decoration: none;
+    color: var(--text);
+}
+a:hover {
+    color: var(--text);
+}
+.main-container{
+    padding: 2rem 6rem;
+}
+.nav {
+    font-size: larger;
+    background-color: var(--primary);
+    padding: 1rem 6rem 0 6rem;
+}
+.header-holder{
+    background-color: var(--primary);
+}
+.header{
+    color: var(--text);
+}
+.main-holder{
+    background-color: var(--secondary);
+    height: 100vh;
+}
+.pCard{
+    padding: 0.5rem 0.5rem;
+    background-color: var(--card);
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+#profile {
+    width: 100%;
+    text-transform: capitalize;
+    text-align: center;
+    color: var(--text);
+    background-color: var(--card);
+    border-radius: 10px;
+    margin-bottom: 10px;   
+}
+
+#profile td{
+    padding: 10px 0;
+}
+#section-tbl {
+    width: 20%;
+}
+#section-tbl-link {
+    width: 20%;
+}
+#section-tbl-admin {
+    width: 16.66%;
+}
+
+.tab{
+    margin-left: 30px;
+}

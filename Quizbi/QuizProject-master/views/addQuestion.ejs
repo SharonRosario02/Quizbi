@@ -1,0 +1,172 @@
+<%- include('../views/include/header.ejs')%>
+  <%- include('../views/include/nav.ejs')%>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+
+        $("#form").submit(function (event) {
+          event.preventDefault();
+
+          $.ajax({
+            type: 'POST',
+            url: '<%= url %>addQuestion',
+            data: $('#form').serialize(),
+            dataType: "json",
+            success: function (response) {
+              //alert("a");
+              //console.log(response.Success);
+              $('#form')[0].reset();
+
+              document.getElementById("check").innerHTML = response.Success;
+              //ADD THIS CODE
+              setTimeout(function () {
+                document.getElementById("check").innerHTML = "";
+              }, 3000);
+              if (response.Success == "Success!") {
+                document.getElementById("aa").setAttribute("href", response.quiz_id);
+                document.getElementById("aa").click();
+              };
+            },
+            error: function () {
+            }
+          })
+        });
+
+      });
+    </script>
+    <div class="container-sm">
+
+
+      <div class="card" style="padding: 5%; margin: 1rem auto 1rem auto;">
+        <div style="text-align: center;margin: 2rem;display: flex;justify-content: center;align-items: center;">
+          <div>
+            <h1>
+              <%= qname %>
+            </h1>
+          </div>
+        
+        </div>
+
+        <form method="post" id="form">
+          <div class="mb-3">
+            <label for="quizname" class="form-label">Question </label>
+            <input type="text" class="form-control" name="q" id="quizname" aria-describedby="quiznameHelp" required>
+            <input type="text" hidden class="form-control" name="quiz_id" id="quiz_id" value="<%= id %> "
+              aria-describedby="quiznameHelp" required>
+            <input type="text" hidden class="form-control" name="department" id="department" value="<%= depart %> "
+              aria-describedby="quiznameHelp" required>
+            <div class="container">
+
+              <table style="width: 100%;">
+                <tr>
+                  <th style="width: 10%;">Answer</th>
+                  <th>Options</th>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="answer" id="flexRadioDefault1" value="0"
+                        required>
+                    </div>
+                  </td>
+                  <td>
+                    <label for="opt1" class="form-label">Option 1</label>
+                    <input type="text" class="form-control" name="options" id="opt1" aria-describedby="quiznameHelp"
+                      required>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="answer" id="flexRadioDefault1" value="1"
+                        required>
+                    </div>
+                  </td>
+                  <td>
+                    <label for="opt1" class="form-label">Option 2</label>
+                    <input type="text" class="form-control" name="options" id="opt1" aria-describedby="quiznameHelp"
+                      required>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="answer" id="flexRadioDefault1" value="2"
+                        required>
+                    </div>
+                  </td>
+                  <td>
+                    <label for="opt1" class="form-label">options 3</label>
+                    <input type="text" class="form-control" name="options" id="opt1" aria-describedby="quiznameHelp"
+                      >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="answer" id="flexRadioDefault1" value="3"
+                        required>
+                    </div>
+                  </td>
+                  <td>
+                    <label for="opt1" class="form-label">Option 4</label>
+                    <input type="text" class="form-control" name="options" id="opt1" aria-describedby="quiznameHelp"
+                      >
+                  </td>
+                </tr>
+
+              </table>
+
+
+
+              
+              <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+
+              
+            </div>
+          </div>
+
+
+          <div style="display: flex; justify-content: center;">
+            <input type="submit" style="width: 80%; " value="Add" class="btn btn-primary">
+          </div>
+        </form>
+        <div class="mssg bg-danger">
+          <span id="check"></span>
+        </div>
+        <div id="LangTable"><a id="aa"></a>
+        </div>
+      </div>
+
+      <% if (questions.length !=0) { %>
+        <div class="card" style="margin-bottom: 2rem;">
+          <div class="card-header">
+            Questions
+          </div>
+          <ul class="list-group list-group-flush">
+
+            <%  key=1; questions.forEach(function(obj) { %>
+              <li class="list-group-item">
+
+                <table style="width: 100%; text-align: center; ">
+                  <tr>
+                    <td style="width: 10%;"><%= key++  %> </td>
+                    <td  style="width: 40% ;">
+                      <%= obj.q %>
+                    </td>
+                    <td style="width: 25%;"><a style=" text-decoration: none;color: black;"
+                        href="<%= url %>edit/<%= obj._id %>"><i class="fa fa-edit"></i></a></a></td>
+                    <td style="width: 25%;"><a style=" text-decoration: none;color: black;"
+                        href="<%= url %>delete/<%= obj._id %>"><i class="fa fa-trash"></i></a></a></td>
+                  </tr>
+                </table>
+              </li>
+              <% }); %>
+          </ul>
+        </div>
+        <%} %>
+    </div>
+
+    <%- include('../views/include/footer.ejs')%>

@@ -1,0 +1,152 @@
+<%- include('../views/include/header.ejs')%> <%-
+include('../views/include/nav.ejs')%>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#form").submit(function (event) {
+      event.preventDefault();
+
+      $.ajax({
+        type: "POST",
+        url: "/admin/<%= url%>",
+        data: $("#form").serialize(),
+        dataType: "json",
+        success: function (response) {
+          //alert("a");
+          //console.log(response.Success);
+          $("#form")[0].reset();
+
+          document.getElementById("check").innerHTML = response.Success;
+          //ADD THIS CODE
+          setTimeout(function () {
+            document.getElementById("check").innerHTML = "";
+          }, 3000);
+          if (response.Success == "Success!") {
+            document
+              .getElementById("aa")
+              .setAttribute("href", response.quiz_id);
+            document.getElementById("aa").click();
+          }
+        },
+        error: function () {},
+      });
+    });
+  });
+</script>
+<style>
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 140px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -75px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+</style>
+<div class="container-sm">
+  <div
+    class="card"
+    style="width: 50%; padding: 5%; margin: 3rem auto 3rem auto"
+  >
+    <div style="text-align: center; margin: 2rem">
+      <h1>Section</h1>
+    </div>
+
+    <form method="post" id="form">
+      <div class="mb-3">
+        <label for="quizname" class="form-label">Section name</label>
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          id="quizname"
+          aria-describedby="quiznameHelp"
+          required
+        />
+        <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+      </div>
+      <div style="display: flex; justify-content: center">
+        <input
+          type="submit"
+          style="width: 80%"
+          value="<% if (isUpdate) { %>Update<% } else {%> create<%  } %>"
+          class="btn btn-primary"
+        />
+      </div>
+    </form>
+
+    <div class="mssg bg-danger">
+      <span id="check"></span>
+    </div>
+    <div id="LangTable"><a id="aa"></a></div>
+  </div>
+  <% if (!isUpdate) { %>
+  <div class="card" >
+    <div class="card-header">
+      Section's 
+    </div>
+    <% if (array.length  != 0) { %>
+      <ul class="list-group list-group-flush">
+        <% array.forEach(function(obj) { %>
+          <li class="list-group-item">
+
+        <table style="width: 100%; text-align: center; ">
+          <tr>
+            <td style="width: 50%;"><%= obj.name %></td> 
+            <td style="width: 25%;"><a  style=" text-decoration: none;color: black;" href="/admin/editsection/<%= obj._id %>"><i class="fa fa-edit"></i></a></a></td>
+            <td style="width: 25%;"><button  class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal"  onclick="deleteFunction('<%= obj._id %>')" ><i class="fa fa-trash"></i></button></td>
+          </tr>
+          </table>
+       </li>
+       <% }); %> 
+      </ul>
+      <%} else { %> 
+      <div style="margin: 1rem;" class="alert alert-danger" role="alert">
+        Section are not created At! 
+        </div>
+
+      <% } %> 
+    </div>
+    <% } %> 
+</div>
+<script>
+  function deleteFunction(id) {
+    if (window.confirm("Are you sure you want to delete this section?")) {
+      // They clicked Yes
+      window.location = ("/admin/sectionDelete/"+id);
+    } else {
+      // They clicked no
+      console.log("cancel");
+    }
+  }
+</script>
+<%- include('../views/include/footer.ejs')%>

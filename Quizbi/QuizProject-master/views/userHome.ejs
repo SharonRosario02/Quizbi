@@ -1,0 +1,51 @@
+<%- include('../views/include/header.ejs')%> <%-
+include('../views/include/usernav.ejs')%>
+
+<style>
+  a {
+    margin: 0.2rem;
+  }
+</style>
+<div class="container text-center">
+  <div class="card" style="margin: 3%; padding: 3%">
+    <h1>Welcome <%= name %></h1>
+  </div>
+  <% if (array.length != 0) { %>
+  <div class="container text-center">
+    <div class="row row-cols-4">
+      <% array.forEach(function(obj) { %>
+      <div class="col">
+        <div
+          class="card"
+          style="padding: 3rem; font-size: larger; margin: 1rem auto"
+        >
+          <h4 style="text-transform: uppercase"><%= obj.name %></h4>
+          <a
+            href="/quiz/<%= obj.name %>/easy"
+            style="text-decoration: none; color: black"
+          >
+            <div class="card">Easy</div>
+          </a>
+          <a
+            href="/quiz/<%= obj.name %>/medium"
+            style="text-decoration: none; color: black"
+          >
+            <div class="card">Medium</div>
+          </a>
+          <a
+            href="/quiz/<%= obj.name %>/hard"
+            style="text-decoration: none; color: black"
+          >
+            <div class="card">Hard</div>
+          </a>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+  <% } else {%>
+  <div style="margin: 1rem" class="alert alert-danger" role="alert">
+    Section are not created At!
+  </div>
+</div>
+<% } %> <%- include('../views/include/footer.ejs')%>

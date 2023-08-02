@@ -1,0 +1,164 @@
+<%- include('../views/include/header.ejs')%> <%-
+include('../views/include/nav.ejs')%>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#form").submit(function (event) {
+      event.preventDefault();
+
+      $.ajax({
+        type: "POST",
+        url: "/admin/create",
+        data: $("#form").serialize(),
+        dataType: "json",
+        success: function (response) {
+          //alert("a");
+          //console.log(response.Success);
+          $("#form")[0].reset();
+
+          document.getElementById("check").innerHTML = response.Success;
+          //ADD THIS CODE
+          setTimeout(function () {
+            document.getElementById("check").innerHTML = "";
+          }, 3000);
+          if (response.Success == "Success!") {
+            document
+              .getElementById("aa")
+              .setAttribute("href", response.quiz_id);
+            document.getElementById("aa").click();
+          }
+        },
+        error: function () {},
+      });
+    });
+  });
+</script>
+<div class="container-sm">
+  <div class="card" style="width: 50%; padding: 2%; margin: 1rem auto">
+    <div style="text-align: center; margin: 2rem">
+      <h1>Create quiz</h1>
+    </div>
+
+    <form method="post" id="form">
+      <div class="mb-3">
+        <label for="quizname" class="form-label">Quiz name</label>
+        <input
+          type="text"
+          class="form-control"
+          name="qname"
+          id="quizname"
+          aria-describedby="quiznameHelp"
+          required
+        />
+        <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+
+        <h6>Quiz section</h6>
+        <% if (array.length != 0) { %> <% array.forEach(function(obj) { %>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="department"
+            id="<%= obj.name %>"
+            value="<%= obj.name %>"
+            required
+          />
+          <label class="form-check-label" for="<%= obj.name %>"
+            ><%= obj.name %></label
+          >
+        </div>
+        <% })%> <%} else { %>
+        <div style="margin: 1rem" class="alert alert-danger" role="alert">
+          Section are not created At!
+        </div>
+
+        <% } %>
+        <!-- levels -->
+        <h6>Quiz levels</h6>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="levels"
+            id="easy"
+            value="easy"
+          />
+          <label class="form-check-label" for="easy"> Easy </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="levels"
+            id="medium"
+            value="medium"
+            required
+          />
+          <label class="form-check-label" for="medium"> Medium </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="levels"
+            id="hard"
+            value="hard"
+          />
+          <label class="form-check-label" for="hard"> Hard </label>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: center">
+        <input
+          type="submit"
+          style="width: 80%"
+          value="Create"
+          class="btn btn-primary"
+        />
+      </div>
+    </form>
+    <div class="mssg bg-danger">
+      <span id="check"></span>
+    </div>
+    <div id="LangTable"><a id="aa"></a></div>
+  </div>
+  <div class="card" >
+    <div class="card-header">
+      Qiuz's 
+    </div>
+    <% if (listquiz.length  != 0) { %>
+      <ul class="list-group list-group-flush">
+      
+        <% listquiz.forEach(function(obj) { %>
+        <li class="list-group-item">
+        <table style="width: 100%; text-align: center; ">
+          <tr>
+            <td style="width: 50%;"><%= obj.quizName %></td> 
+            <td style="width: 25%;"><a  style=" text-decoration: none;color: black;" href="/admin/addQuestion/<%= obj.quiz_id %>"><i class="fa fa-edit"></i></a></a></td>
+            <td style="width: 25%;"><button  class="btn " data-bs-toggle="modal" data-bs-target="#exampleModal"  onclick="deleteFunction('<%= obj._id %>')" ><i class="fa fa-trash"></i></button></td>
+          </tr>
+          </table>
+        </li>
+       <% }); %> 
+      </ul>
+      <%} else { %> 
+      <div style="margin: 1rem;" class="alert alert-danger" role="alert">
+        Quiz are not created At! <a href="/admin/create">click here</a>
+        </div>
+
+      <% } %> 
+    </div>
+</div>
+
+<script>
+  function deleteFunction(id) {
+    if (window.confirm("Are you sure you want to delete this section?")) {
+      // They clicked Yes
+      window.location = ("/admin/deleteQuizName/"+id);
+    } else {
+      // They clicked no
+      console.log("cancel");
+    }
+  }
+</script>
+
+<%- include('../views/include/footer.ejs')%>

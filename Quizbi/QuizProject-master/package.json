@@ -1,0 +1,23 @@
+{
+  "name": "quiz",
+  "version": "1.0.0",
+  "description": "quiz app",
+  "main": "server.js",
+  "dependencies": {
+    "connect-mongo": "^4.6.0",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "joi": "^17.7.0",
+    "mongoose": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "unirest": "^0.6.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "sanit bandekar",
+  "license": "ISC"
+}

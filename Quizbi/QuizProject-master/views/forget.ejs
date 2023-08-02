@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!-- === Coding by CodingLab | www.codinglabweb.com === -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ===== Iconscout CSS ===== -->
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+    />
+
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="./css/login.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--<title>Login & Registration Form</title>-->
+  </head>
+  <body>
+    <script type="text/javascript">
+      const otpSent = false;
+      $(document).ready(function () {
+        $("#form").submit(function (event) {
+          event.preventDefault();
+
+          $.ajax({
+            type: "POST",
+            url: "/forgetpass",
+            data: $("#form").serialize(),
+            dataType: "json",
+            success: function (response) {
+              //alert("a");
+              //console.log(response.Success);
+
+              //alert("abc");
+              document.getElementById("check").innerHTML = response.Success;
+
+              setTimeout(function () {
+                document.getElementById("check").innerHTML = "";
+              }, 3000);
+              if (response.Success == "Password changed!") {
+                $("#form")[0].reset();
+                document.getElementById("aa").click();
+              }
+              if (response.Success == "otpSent") {
+                const msgOTP = document.getElementById("msgOTP");
+                const otpInput = document.getElementById("otpDiv");
+                 msgOTP.innerText = "OTP sent on mobile number";
+    
+                otpInput.hidden = false;
+                otpInput.innerHTML =
+                  ' <input type="text" name="otp" placeholder="Enter OTP" required="" id="otp" class="form-control"/><br /> <i class="uil uil-lock icon"></i>';
+              }
+            },
+            error: function () {},
+          });
+        });
+      });
+    </script>
+
+    <div class="container">
+      <div class="forms" style="height: 550px">
+        <div class="form signUp">
+          <span class="title">Forget password</span>
+
+          <form id="form" method="post">
+            <div class="input-field">
+              <input
+                type="tel"
+                name="mobile"
+                id="mobile"
+                placeholder="Enter your mobile no."
+                maxlength="10"
+                minlength="10"
+                required
+              />
+              <i class="uil uil-phone icon"></i>
+            </div>
+            <div class="input-field">
+              <input
+                type="password"
+                class="password"
+                name="password"
+                minlength="4"
+                placeholder="Enter your password"
+                required
+              />
+              <i class="uil uil-lock icon"></i>
+            </div>
+            <div class="input-field">
+              <input
+                type="password"
+                name="passwordConf"
+                placeholder="Confirm Password"
+                required=""
+                class="form-control"
+                minlength="4"
+              /><br />
+              <i class="uil uil-lock icon"></i>
+            </div>
+
+            <div class="input-field" id="otpDiv" hidden></div>
+            <p id="msgOTP"></p>
+            <div class="input-field button">
+              <input type="submit" value="Reset" id="submit" />
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="check" style="text-align: center">
+        <span id="check"> </span>
+      </div>
+    </div>
+    <div id="LangTable"><a href="/login" id="aa"></a></div>
+    <script>
+      const otpInput = document.getElementById("otpDiv");
+      const button = document.getElementById("submit");
+      const msgOTP = document.getElementById("msgOTP");
+      const mobile = document.getElementById("mobile");
+      
+
+      mobile.addEventListener("change", myFunction);
+
+      function myFunction() {
+        var x = mobile;
+        if (x.value.length != 10) {
+          document.getElementById("check").innerHTML="Mobile Number is not valid";
+          console.log(x.value.length);
+          if (otpSent) {
+        
+              document.getElementById("check").innerHTML="";
+             
+
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

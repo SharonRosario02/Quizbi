@@ -1,0 +1,144 @@
+<%- include('../views/include/header.ejs')%> <%-
+include('../views/include/nav.ejs')%>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#form").submit(function (event) {
+      event.preventDefault();
+
+      $.ajax({
+        type: "POST",
+        url: "<%= url %>editQuestion",
+        data: $("#form").serialize(),
+        dataType: "json",
+        success: function (response) {
+          //alert("a");
+          //console.log(response.Success);
+          $("#form")[0].reset();
+
+          document.getElementById("check").innerHTML = response.Success;
+          //ADD THIS CODE
+          setTimeout(function () {
+            document.getElementById("check").innerHTML = "";
+          }, 3000);
+          if (response.Success == "Success!") {
+            document
+              .getElementById("aa")
+              .setAttribute("href", response.quiz_id);
+            document.getElementById("aa").click();
+          }
+        },
+        error: function () {},
+      });
+    });
+  });
+</script>
+<div class="container-sm">
+  <div class="card" style="padding: 5%; margin: 1rem auto 1rem auto">
+    <div
+      style="
+        text-align: center;
+        margin: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <div>
+        <h1>Edit question</h1>
+      </div>
+    </div>
+
+    <form method="post" id="form">
+      <div class="mb-3">
+        <label for="quizname" class="form-label">Question </label>
+        <input
+          type="text"
+          class="form-control"
+          name="q"
+          id="quizname"
+          aria-describedby="quiznameHelp"
+          value="<%= q %> "
+          required
+        />
+        <input
+          type="text"
+          hidden
+          class="form-control"
+          name="id"
+          id="id"
+          value="<%= id %> "
+          aria-describedby="quiznameHelp"
+          required
+        />
+        <input
+          type="text"
+          hidden
+          class="form-control"
+          name="quiz_id"
+          id="quiz_id"
+          value="<%= quiz_id %> "
+          aria-describedby="quiznameHelp"
+          required
+        />
+        <input
+          type="text"
+          hidden
+          class="form-control"
+          name="department"
+          id="department"
+          value="<%= department %> "
+          aria-describedby="quiznameHelp"
+          required
+        />
+        <div class="container">
+          <table style="width: 100%">
+            <tr>
+              <th style="width: 10%">Answer</th>
+              <th>Options</th>
+            </tr>
+
+            <% if (options.length != 0) { i=1 %> <%
+            options.forEach(function(obj, index) { %>
+            <tr>
+              <td>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="answer"
+                  id="flexRadioDefault1" value="<%= index %>" <% if (answer
+                  ===index) { %> checked <% } %> required >
+                </div>
+              </td>
+              <td>
+                <label for="opt1" class="form-label">Option <%= i++ %> </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="options"
+                  id="opt1"
+                  value="<%= obj %> "
+                  aria-describedby="quiznameHelp"
+                />
+              </td>
+            </tr>
+            <%}); %> <%} %>
+          </table>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center">
+        <input
+          type="submit"
+          style="width: 80%"
+          value="Update"
+          class="btn btn-primary"
+        />
+      </div>
+    </form>
+    <div class="mssg bg-danger">
+      <span id="check"></span>
+    </div>
+    <div id="LangTable"><a id="aa"></a></div>
+  </div>
+</div>
+
+<%- include('../views/include/footer.ejs')%>

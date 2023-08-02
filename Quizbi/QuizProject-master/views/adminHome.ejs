@@ -1,0 +1,34 @@
+<%- include('../views/include/header.ejs')%> <%-
+include('../views/include/nav.ejs')%>
+<script>
+  function sendEmail(email) {
+    window.location = "mailto:" + email;
+  }
+</script>
+<div class="container-sm" style="display: flex; flex-direction: column">
+  <div class="card" style="margin: 3% 0%; padding: 3%">
+    <h1>Welcome <%= name %></h1>
+  </div>
+
+  <!-- <div class="card"> -->
+  <div class="pCard" style="color: #fff; padding: 10px 20px">Feedback's</div>
+  <% if (quizs.length != 0) { %> <% quizs.forEach(function(obj) { %>
+  <div class="pCard" style="color: #fff; font-size: larger; padding: 10px 20px">
+    <p>Name : <%= obj.name %></p>
+    <p style="text-transform: lowercase">
+      Email : <%= obj.email %>
+      <i onclick="sendEmail('<%= obj.email%>')" class="fa fa-reply"></i>
+    </p>
+    <p>Comment : <%= obj.comment %></p>
+  </div>
+  <% }); %> <%} else { %>
+  <div style="margin: 1rem" class="alert alert-danger" role="alert">
+    Quiz are not created At! <a href="/admin/create">click here</a>
+  </div>
+
+  <% } %>
+  <!-- </div>
+</div> -->
+
+  <%- include('../views/include/footer.ejs')%>
+</div>
