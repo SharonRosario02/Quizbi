@@ -24,4 +24,3 @@ npm install
 node start or npm start
 step 3: open chrome and enter localhost:3000
 The project should hopefully start
-
